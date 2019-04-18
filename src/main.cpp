@@ -1,59 +1,34 @@
 #include "esp_camera.h"
 #include <WiFi.h>
-
-//
-// WARNING!!! Make sure that you have either selected ESP32 Wrover Module,
-//            or another board which has PSRAM enabled
-//
-
-// Select camera model
-//#define CAMERA_MODEL_WROVER_KIT
-//#define CAMERA_MODEL_M5STACK_PSRAM
-#define CAMERA_MODEL_AI_THINKER
+#include "slack.h"
 
 const char* ssid = "Knowledge2.4GHz";
 const char* password = "dirkbeata";
 
+// Deep Sleep
+RTC_DATA_ATTR int bootCount = 0;
 
-#if defined(CAMERA_MODEL_WROVER_KIT)
-#define PWDN_GPIO_NUM    -1
-#define RESET_GPIO_NUM   -1
-#define XCLK_GPIO_NUM    21
-#define SIOD_GPIO_NUM    26
-#define SIOC_GPIO_NUM    27
+/*
+  Method to print the reason by which ESP32
+  has been awaken from sleep
+*/
+void print_wakeup_reason(){
+  esp_sleep_wakeup_cause_t wakeup_reason;
 
-#define Y9_GPIO_NUM      35
-#define Y8_GPIO_NUM      34
-#define Y7_GPIO_NUM      39
-#define Y6_GPIO_NUM      36
-#define Y5_GPIO_NUM      19
-#define Y4_GPIO_NUM      18
-#define Y3_GPIO_NUM       5
-#define Y2_GPIO_NUM       4
-#define VSYNC_GPIO_NUM   25
-#define HREF_GPIO_NUM    23
-#define PCLK_GPIO_NUM    22
+  wakeup_reason = esp_sleep_get_wakeup_cause();
 
-#elif defined(CAMERA_MODEL_M5STACK_PSRAM)
-#define PWDN_GPIO_NUM     -1
-#define RESET_GPIO_NUM    15
-#define XCLK_GPIO_NUM     27
-#define SIOD_GPIO_NUM     25
-#define SIOC_GPIO_NUM     23
+  switch(wakeup_reason)
+  {
+    case ESP_SLEEP_WAKEUP_EXT0 : Serial.println("Wakeup caused by external signal using RTC_IO"); break;
+    case ESP_SLEEP_WAKEUP_EXT1 : Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
+    case ESP_SLEEP_WAKEUP_TIMER : Serial.println("Wakeup caused by timer"); break;
+    case ESP_SLEEP_WAKEUP_TOUCHPAD : Serial.println("Wakeup caused by touchpad"); break;
+    case ESP_SLEEP_WAKEUP_ULP : Serial.println("Wakeup caused by ULP program"); break;
+    default : Serial.printf("Wakeup was not caused by deep sleep: %d\n",wakeup_reason); break;
+  }
+}
 
-#define Y9_GPIO_NUM       19
-#define Y8_GPIO_NUM       36
-#define Y7_GPIO_NUM       18
-#define Y6_GPIO_NUM       39
-#define Y5_GPIO_NUM        5
-#define Y4_GPIO_NUM       34
-#define Y3_GPIO_NUM       35
-#define Y2_GPIO_NUM       32
-#define VSYNC_GPIO_NUM    22
-#define HREF_GPIO_NUM     26
-#define PCLK_GPIO_NUM     21
-
-#elif defined(CAMERA_MODEL_AI_THINKER)
+// Camera
 #define PWDN_GPIO_NUM     32
 #define RESET_GPIO_NUM    -1
 #define XCLK_GPIO_NUM      0
@@ -72,16 +47,26 @@ const char* password = "dirkbeata";
 #define HREF_GPIO_NUM     23
 #define PCLK_GPIO_NUM     22
 
-#else
-#error "Camera model not selected"
-#endif
-
 void startCameraServer();
 
 void setup() {
   Serial.begin(115200);
   Serial.setDebugOutput(true);
   Serial.println();
+  delay(1000);
+
+  // ++bootCount;
+  Serial.println("Boot number: " + String(bootCount));
+
+  // print_wakeup_reason();
+
+  // esp_sleep_enable_ext0_wakeup(GPIO_NUM_4,1);
+
+  // Go to sleep now
+  Serial.println("Going to sleep now");
+  // esp_deep_sleep_start();
+  Serial.println("This will never be printed.");
+
 
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
@@ -135,7 +120,9 @@ void setup() {
   Serial.println("");
   Serial.println("WiFi connected");
 
-  startCameraServer();
+
+  // startCameraServer();
+  sendMsg();
 
   Serial.print("Camera Ready! Use 'http://");
   Serial.print(WiFi.localIP());
