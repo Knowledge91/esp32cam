@@ -111,8 +111,12 @@ void setup() {
   sensor_t * s = esp_camera_sensor_get();
   s->set_framesize(s, FRAMESIZE_QVGA);
 
-  WiFi.begin(ssid, password);
+  // take picture
+  camera_fb_t * fb = NULL;
+  fb = esp_camera_fb_get();
 
+
+  WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -120,10 +124,7 @@ void setup() {
   Serial.println("");
   Serial.println("WiFi connected");
 
-
-  // startCameraServer();
-  sendCapture();
-  sendMsg();
+  sendCapture((uint8_t *)fb->buf, fb->len);
 
   Serial.print("Camera Ready! Use 'http://");
   Serial.print(WiFi.localIP());

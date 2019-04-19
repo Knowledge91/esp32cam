@@ -11,12 +11,12 @@ void sendMsg() {
   Serial.println("HTTP sent");
 }
 
-void sendCapture() {
-  camera_fb_t * fb = NULL;
+void sendCapture(uint8_t *image_buffer, int len) {
+  http.begin("https://2aczcmrqs4.execute-api.eu-west-1.amazonaws.com/dev/capture");
+  http.addHeader("Content-Type", "application/json");
 
-  fb = esp_camera_fb_get();
+  String imageString = base64::encode(image_buffer, len);
 
-  Serial.println("jpg to base64");
-  String base64String = base64::encode((uint8_t *)fb->buf, fb->len);
-  Serial.println(base64String);
+  http.POST("{\"image\":\"" + imageString  + "\"}");
+  Serial.println("HTTP sent");
 }
