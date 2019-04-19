@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@slack/web-api": "^5.0.1",
+    "aws-sdk": "^2.440.0"
+  }
+}
