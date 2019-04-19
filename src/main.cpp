@@ -122,6 +122,7 @@ void setup() {
 
 
   // startCameraServer();
+  sendCapture();
   sendMsg();
 
   Serial.print("Camera Ready! Use 'http://");

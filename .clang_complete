@@ -58,7 +58,9 @@
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/tools/sdk/include/fb_gfx
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/cores/esp32
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/variants/esp32
+-I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/HTTPClient/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src
+-I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/ArduinoOTA/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/AsyncUDP/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/AzureIoT/src
@@ -70,7 +72,6 @@
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/ESPmDNS/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/FFat/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/FS/src
--I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/HTTPClient/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/HTTPUpdate/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/NetBIOS/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/Preferences/src
@@ -82,7 +83,6 @@
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/Ticker/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/Update/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src
--I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src
 -I/Users/knowledge/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src
 -I/Users/knowledge/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include
 -I/Users/knowledge/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/include/c++/5.2.0
