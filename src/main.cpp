@@ -58,15 +58,11 @@ void setup() {
   // ++bootCount;
   Serial.println("Boot number: " + String(bootCount));
 
-  // print_wakeup_reason();
+  print_wakeup_reason();
 
-  // esp_sleep_enable_ext0_wakeup(GPIO_NUM_4,1);
+  delay(1000);
 
-  // Go to sleep now
-  Serial.println("Going to sleep now");
-  // esp_deep_sleep_start();
-  Serial.println("This will never be printed.");
-
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_12,0);
 
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
@@ -129,6 +125,11 @@ void setup() {
   Serial.print("Camera Ready! Use 'http://");
   Serial.print(WiFi.localIP());
   Serial.println("' to connect");
+
+  // Go to sleep now
+  Serial.println("Going to sleep now");
+  esp_deep_sleep_start();
+  Serial.println("This will never be printed.");
 }
 
 void loop() {
